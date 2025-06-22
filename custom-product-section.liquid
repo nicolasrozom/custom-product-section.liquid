@@ -1,0 +1,39 @@
+<div class="custom-product-wrapper">
+  <div class="product-grid">
+    <div class="product-image">
+      {{ product.featured_image | image_url: width: 600 | image_tag }}
+    </div>
+    <div class="product-info">
+      <h2>{{ product.title }}</h2>
+      <p>{{ product.description }}</p>
+      <button class="custom-button">Ver más</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .product-grid {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .product-image {
+    flex: 1 1 50%;
+  }
+
+  .product-info {
+    flex: 1 1 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .custom-button {
+    padding: 10px 20px;
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+</style>
