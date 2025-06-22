@@ -1,12 +1,25 @@
+{% assign product_obj = all_products[section.settings.selected_product] %}
+{% if product_obj == blank %}
+  {% assign product_obj = product %}
+{% endif %}
+
 <div class="custom-product-wrapper">
   <div class="product-grid">
     <div class="product-image">
-      {{ product.featured_image | image_url: width: 600 | image_tag }}
+      {% if section.settings.product_image != blank %}
+        <img src="{{ section.settings.product_image | image_url: width: 600 }}" alt="">
+      {% elsif product_obj.featured_image %}
+        {{ product_obj.featured_image | image_url: width: 600 | image_tag }}
+      {% endif %}
     </div>
     <div class="product-info">
-      <h2>{{ product.title }}</h2>
-      <p>{{ product.description }}</p>
-      <button class="custom-button">Ver más</button>
+      <h2 style="font-size: {{ section.settings.heading_size }}px;">
+        {{ section.settings.heading_text | default: product_obj.title }}
+      </h2>
+      <p style="font-size: {{ section.settings.description_size }}px;">
+        {{ section.settings.description_text | default: product_obj.description }}
+      </p>
+      <button class="custom-button">{{ section.settings.button_label }}</button>
     </div>
   </div>
 </div>
@@ -43,7 +56,53 @@
   "name": "Sección producto",
   "tag": "section",
   "class": "section",
-  "settings": [],
+  "settings": [
+    {
+      "type": "product",
+      "id": "selected_product",
+      "label": "Producto"
+    },
+    {
+      "type": "image_picker",
+      "id": "product_image",
+      "label": "Imagen del producto"
+    },
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Título",
+      "default": "Título del producto"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Tamaño del título",
+      "min": 14,
+      "max": 60,
+      "step": 1,
+      "default": 24
+    },
+    {
+      "type": "textarea",
+      "id": "description_text",
+      "label": "Descripción"
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "label": "Tamaño de descripción",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "default": 16
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texto del botón",
+      "default": "Ver más"
+    }
+  ],
   "presets": [
     {
       "name": "Sección personalizada de producto"
